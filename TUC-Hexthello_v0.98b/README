@@ -18,11 +18,15 @@ Execution:
 
 ./guiServer
 ./server [-p port] [-g number_of_games] [-s (swap color after each game)]
-./client [-i ip] [-p port] [-m mode] [-n agent_name]
+./client [-i ip] [-p port] [-m mode] [-e eval function] [-n agent_name]
 
-Note : mode can take one of the following values:
-	   - r : random
-	   - m : minimax
-	   - ab : ab-pruning
+Notes : 
+	-> mode can take one of the following values:
+	  	- r : random
+	   	- m : minimax
+	   	- ab : ab-pruning
+	-> evaluation function options:
+		- 0 : weighted function (coin parity, mobility, corners)
+		- 1 : simple coin parity function
 --------------------------------------------------
 
