@@ -1,6 +1,7 @@
 TUC Hexthello v0.98b
 --------------------------------------------------
-Author: Ioannis Skoulakis
+Author of core code: Ioannis Skoulakis
+Author of client.c, client.h: Konstantinos Bouros
 Affiliation: Technical University of Crete, Greece
 --------------------------------------------------
 
