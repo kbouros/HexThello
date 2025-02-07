@@ -1,0 +1,32 @@
+TUC Hexthello v0.98b
+--------------------------------------------------
+Author: Ioannis Skoulakis
+Affiliation: Technical University of Crete, Greece
+--------------------------------------------------
+
+Requirements:
+
+* any Linux distribution
+
+Compilation:
+
+* make [all]  - to build client and server
+* make client - to build just the client
+* make server - to build just the server
+
+Execution:
+
+./guiServer
+./server [-p port] [-g number_of_games] [-s (swap color after each game)]
+./client [-i ip] [-p port] [-m mode] [-e eval function] [-n agent_name]
+
+Notes : 
+	-> mode can take one of the following values:
+	  	- r : random
+	   	- m : minimax
+	   	- ab : ab-pruning
+	-> evaluation function options:
+		- 0 : weighted function (coin parity, mobility, corners)
+		- 1 : simple coin parity function
+--------------------------------------------------
+
