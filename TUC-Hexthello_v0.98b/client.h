@@ -9,20 +9,40 @@
 
 #define MAX_DEPTH 5		// Max fixed depth used for simple cutoff function
 
-int isCutoff( Position * pos, int depth );	//checks if a move is legal
+int isCutoff( Position * pos, int depth );	// checks if a move is legal
 
-int evaluate( Position * pos);	//evaluates position for client (player mycolor)
+float evaluateSimple( Position * pos);	// evaluates position for client with simple coin difference
 
-int maxValue( Position * pos, Move * bestMove, int depth );	//util function for minimax (maximizer)
+float normalizeScore( float myScore, float oppScore); // util function for evaluation heuristics
 
-int minValue( Position * pos, Move * bestMove, int depth );	//util function for minimax (minimizer)
+void calcMobility( Position * pos, float * actualMobility, float * potentialMobility);
+/*calculates the actual and potential mobility of the given position and stores  
+them using the respective pointers*/
 
-int minimax( Position * pos, Move * bestMove); //minimax search (stores best move in bestMove)
+float calcCornerScore( Position * pos);
+//calculates the corner score of a position (corners captured and potential corners)
 
-int abMax( Position * pos, Move * bestMove, int depth, int a, int b); //util function for abSearch (maximizer)
+float evaluate( Position * pos);
+//evaluates position for client with weighted function (coin parity, mobility, corners)
 
-int abMin( Position * pos, Move * bestMove, int depth, int a, int b); //util function for abSearch (minimizer)
+float evaluate2( Position * pos);
+//used for weight experimentations (same core as evaluate)
 
-int abSearch( Position * pos, Move * bestMove); //ab-pruning search
+float maxValue( Position * pos, Move * bestMove, int depth, float (*evalFuncPtr)(Position *));	
+//util function for minimax (maximizer)
+
+float minValue( Position * pos, Move * bestMove, int depth, float (*evalFuncPtr)(Position *));	
+//util function for minimax (minimizer)
+
+float minimax( Position * pos, Move * bestMove, float (*evalFuncPtr)(Position *)); 
+//minimax search (stores best move in bestMove)
+
+float abMax( Position * pos, Move * bestMove, int depth, float a, float b, float (*evalFuncPtr)(Position *)); 
+//util function for abSearch (maximizer)
+
+float abMin( Position * pos, Move * bestMove, int depth, float a, float b, float (*evalFuncPtr)(Position *)); 
+//util function for abSearch (minimizer)
+
+float abSearch( Position * pos, Move * bestMove, float (*evalFuncPtr)(Position *)); //ab-pruning search
 
 #endif
