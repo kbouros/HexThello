@@ -64,7 +64,7 @@ int main( int argc, char ** argv )
 				break;
 			case 'e':
 				evalFunction = atoi(optarg);
-				if(evalFunction > 2 || evalFunction < 0){
+				if(evalFunction >= 2 || evalFunction < 0){
 					printf("Invalid argument. [-e] requires an integer between 0 and 1. \n");
 					return 1;
 				}
@@ -455,10 +455,24 @@ float evaluate( Position * pos)
 	float coinParity = 100*(pos->score[(int) myColor] - pos->score[(int) getOtherSide(myColor)]);
 	coinParity = coinParity / (pos->score[(int) myColor] + pos->score[(int) getOtherSide(myColor)]);
 
+	// If game ended we are only interested in coin parity
+	if( !canMove( pos, WHITE ) && !canMove( pos, BLACK ) ){
+		// We won. The bigger coinParity is the better.
+		if(coinParity > 0)
+			return 20000+coinParity;
+		else if (coinParity < 0 )
+		{	
+			// We lost. The closer coinParity is to 0 the better.
+			return -20000+coinParity;
+		}
+		else return 0;
+	}
+
 	// Mobility heuristic (actual and potential)
 	float actualMobility, potentialMobility;
 	calcMobility(pos, &actualMobility, &potentialMobility);
 
+	// Corner score
 	float cornerScore = calcCornerScore(pos);
 	
 	return 20*coinParity + 5*actualMobility + 4*potentialMobility + 30*cornerScore;
@@ -467,18 +481,34 @@ float evaluate( Position * pos)
 /**********************************************************/
 float evaluate2( Position * pos)
 {	
+
 	// Additional function used for weight experimentations
 	// Coin parity heuristic
 	float coinParity = 100*(pos->score[(int) myColor] - pos->score[(int) getOtherSide(myColor)]);
 	coinParity = coinParity / (pos->score[(int) myColor] + pos->score[(int) getOtherSide(myColor)]);
 
+	// If game ended we are only interested in coin parity
+	if( !canMove( pos, WHITE ) && !canMove( pos, BLACK ) ){
+		// We won. The bigger coinParity is the better.
+		if(coinParity > 0)
+			return 20000+coinParity;
+		else if (coinParity < 0 )
+		{	
+			// We lost. The closer coinParity is to 0 the better.
+			return -20000+coinParity;
+		}
+		else return 0;
+	}
+
 	// Mobility heuristic (actual and potential)
 	float actualMobility, potentialMobility;
 	calcMobility(pos, &actualMobility, &potentialMobility);
 
+	// Corner score
 	float cornerScore = calcCornerScore(pos);
 	
-	return 20*coinParity + 5*actualMobility + 5*potentialMobility + 30*cornerScore;
+	// experiment with weights and go against evaluate
+	return 24*coinParity + 5*actualMobility + 5*potentialMobility + 30*cornerScore;
 }
 
 /**********************************************************/
